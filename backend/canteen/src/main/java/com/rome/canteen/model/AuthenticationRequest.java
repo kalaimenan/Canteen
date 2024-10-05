@@ -1,11 +1,17 @@
 package com.rome.canteen.model;
+
+import javax.management.relation.Role;
+
 public class AuthenticationRequest {
     private String email;
     private String password;
+    private String role;
     public AuthenticationRequest() {}
     public AuthenticationRequest(String email, String password) {
         this.email = email;
         this.password = password;
+
+
     }
     // Getters and Setters
     public String getEmail() {
@@ -20,4 +26,5 @@ public class AuthenticationRequest {
     public void setPassword(String password) {
         this.password = password;
     }
+
 }

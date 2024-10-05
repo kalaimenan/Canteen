@@ -11,6 +11,7 @@ public class User {
     private String password;
     private String ABC;
     private String role;
+    private String imageBase64;
     // Role could be: student, staff, admin, owner, etc.
     // Default constructor
     public User() {
@@ -21,12 +22,14 @@ public class User {
 
     //aBCE
     // Parameterized constructor
-    public User(String userId, String name, String email, String password, String role) {
+    public User(String userId, String name, String email, String password, String role, String imageBase64) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.imageBase64 = imageBase64;
+
     }
     // Getters and Setters
     public String getId() {

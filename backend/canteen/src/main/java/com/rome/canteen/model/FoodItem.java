@@ -3,25 +3,30 @@ package com.rome.canteen.model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "food_items")
+@Document(collection = "fooditems")
 public class FoodItem {
+
     @Id
     private String id;
     private String name;
     private String description;
     private double price;
     private String availability;
-    private String mealType; // E.g., Breakfast, Lunch, etc.
+    private String mealType;
+    private String imageBase64;
 
-    public FoodItem() {
-    }
+    // Default constructor
+    public FoodItem() {}
 
-    public FoodItem(String name, String description, double price, String availability, String mealType) {
+    // Constructor with all fields
+    public FoodItem(String id, String name, String description, double price, String availability, String mealType, String imageBase64) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
         this.availability = availability;
         this.mealType = mealType;
+        this.imageBase64 = imageBase64;
     }
 
     // Getters and Setters
@@ -71,5 +76,13 @@ public class FoodItem {
 
     public void setMealType(String mealType) {
         this.mealType = mealType;
+    }
+
+    public String getImageBase64() {
+        return imageBase64;
+    }
+
+    public void setImageBase64(String imageBase64) {
+        this.imageBase64 = imageBase64;
     }
 }
