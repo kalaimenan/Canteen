@@ -16,6 +16,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
+
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -54,6 +56,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)  // Disable CSRF for JWT-based authentication
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/login", "/auth/signup").permitAll()  // Allow login and signup without authentication
+                        .requestMatchers("/api/fooditems/add").permitAll()  // Allow food item creation without authentication
                         .anyRequest().authenticated()  // All other requests require authentication
                 )
                 .sessionManagement(session -> session
@@ -64,3 +67,4 @@ public class SecurityConfig {
         return http.build();
     }
 }
+

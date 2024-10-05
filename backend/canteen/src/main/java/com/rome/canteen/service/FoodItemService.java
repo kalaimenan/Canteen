@@ -22,8 +22,9 @@ public class FoodItemService {
         return foodItemRepository.findById(id);
     }
 
-    public FoodItem addFoodItem(FoodItem foodItem) {
-        return foodItemRepository.save(foodItem);
+    public void save(FoodItem foodItem) {
+        // Save the food item to MongoDB
+        foodItemRepository.save(foodItem);
     }
 
     public FoodItem updateFoodItem(String id, FoodItem foodItemDetails) {
