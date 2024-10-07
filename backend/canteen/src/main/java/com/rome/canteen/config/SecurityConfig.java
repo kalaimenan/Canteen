@@ -55,7 +55,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)  // Disable CSRF for JWT-based authentication
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/auth/login", "/auth/signup").permitAll()  // Allow login and signup without authentication
+                        .requestMatchers("/auth/login", "/auth/signup","/api/contact/submit").permitAll()  // Allow login and signup without authentication
                         .requestMatchers("/api/fooditems/add").permitAll()  // Allow food item creation without authentication
                         .anyRequest().authenticated()  // All other requests require authentication
                 )
