@@ -55,10 +55,19 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)  // Disable CSRF for JWT-based authentication
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/auth/login", "/auth/signup","/api/contact/submit").permitAll()  // Allow login and signup without authentication
-                        .requestMatchers("/api/fooditems/add").permitAll()  // Allow food item creation without authentication
+                        .requestMatchers("/auth/login", "/auth/signup","/api/contact/submit").permitAll()  // Allow login , signup and contact without authentication
+                        .requestMatchers("/api/fooditems/add","/api/orders").permitAll()  // Allow food item creation without authentication
+
+
+                       // .requestMatchers("/api/orders").hasRole("USER", "/api/contact/submit")  // Only users with 'USER' role can access orders
+                        // .requestMatchers("/api/orders").hasRole("ADMIN")
+
                         .anyRequest().authenticated()  // All other requests require authentication
                 )
+
+
+
+
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Stateless session for JWT usage
                 )
