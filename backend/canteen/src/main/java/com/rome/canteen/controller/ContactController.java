@@ -30,7 +30,7 @@ public class ContactController {
     }
 
     // Only users with roles "ADMIN" or "OWNER" can access this endpoint
-    @Secured({"ROLE_ADMIN", "ROLE_OWNER"})
+
     @GetMapping("/messages")
     public ResponseEntity<List<Contact>> getAllMessages() {
         List<Contact> messages = contactService.getAllMessages();
