@@ -67,6 +67,17 @@ public class SecurityConfig {
                         .requestMatchers("/api/contact/messages").hasAnyRole("ADMIN", "OWNER")
 
 
+
+
+
+                        // Users with role "USER" can view and manage orders
+                        .requestMatchers("/api/orders/**").hasAnyRole("USER", "ADMIN", "OWNER")  // Permit user, admin, and owner roles
+
+
+
+
+
+
                         // All other requests require authentication
                         .anyRequest().authenticated()
                 )
