@@ -16,8 +16,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
-
-
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -53,27 +51,27 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(AbstractHttpConfigurer::disable)  // Disable CSRF for JWT-based authentication
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/auth/login", "/auth/signup","/api/contact/submit").permitAll()  // Allow login , signup and contact without authentication
-                        .requestMatchers("/api/fooditems/add","/api/orders").permitAll()  // Allow food item creation without authentication
+                        // Public access to login, signup, and contact submit endpoints
+                        .requestMatchers("/auth/login", "/auth/signup", "/api/contact/submit","/api/fooditems/{id}").permitAll()
 
+                        // Only the OWNER can add and delete food items
+                        .requestMatchers("/api/fooditems/add").hasRole("OWNER")
+                        .requestMatchers("/api/fooditems/{id}").hasRole("OWNER")
 
-                       // .requestMatchers("/api/orders").hasRole("USER", "/api/contact/submit")  // Only users with 'USER' role can access orders
-                        // .requestMatchers("/api/orders").hasRole("ADMIN")
+                        // Everyone can retrieve all food items and a specific food item by ID
+                        .requestMatchers("/api/fooditems").permitAll()
+                       // .requestMatchers().permitAll()
 
-                        .anyRequest().authenticated()  // All other requests require authentication
+                        // All other requests require authentication
+                        .anyRequest().authenticated()
                 )
-
-
-
-
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)  // Stateless session for JWT usage
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .authenticationProvider(authenticationProvider())  // Use the custom authentication provider
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);  // Add JWT filter before authentication filter
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }
-

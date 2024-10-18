@@ -3,12 +3,13 @@ package com.rome.canteen.service;
 import com.rome.canteen.model.User;
 import com.rome.canteen.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UserDetailsService;  // Add this import
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import java.util.ArrayList;
+import java.util.*;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -21,14 +22,11 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // Register a new user, ensuring that the email is unique.
+    // Register a new user
     public void registerUser(User user) {
-        // Check if the email is already in use
         if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new IllegalArgumentException("Email already in use");
         }
-
-        // Encode password and save the new user
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }
@@ -41,8 +39,16 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found with email: " + email);
         }
 
+        // Set user roles
+        List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority("ROLE_" + user.getRole().toUpperCase()));
+
         return new org.springframework.security.core.userdetails.User(
-                user.getEmail(), user.getPassword(), new ArrayList<>()
+                user.getEmail(), user.getPassword(), authorities
         );
+    }
+
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }
