@@ -5,27 +5,22 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "orders")
 public class Order {
-
     @Id
     private String id;
-    private String customerId;
+    private String category;
+    private String timeSlot;
+    private String userId;
     private String foodItemId;
-    private String category; // breakfast, lunch, or dinner
-    private String timeSlot; // Time slot like "7:00 AM - 7:30 AM"
 
-    // Default constructor
-    public Order() {
-    }
+    // Constructors, Getters, Setters, and toString() methods
+    public Order() {}
 
-    // Parameterized constructor
-    public Order(String customerId, String foodItemId, String category, String timeSlot) {
-        this.customerId = customerId;
-        this.foodItemId = foodItemId;
+    public Order(String category, String timeSlot, String userId, String foodItemId) {
         this.category = category;
         this.timeSlot = timeSlot;
+        this.userId = userId;
+        this.foodItemId = foodItemId;
     }
-
-    // Getters and Setters
 
     public String getId() {
         return id;
@@ -33,22 +28,6 @@ public class Order {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(String customerId) {
-        this.customerId = customerId;
-    }
-
-    public String getFoodItemId() {
-        return foodItemId;
-    }
-
-    public void setFoodItemId(String foodItemId) {
-        this.foodItemId = foodItemId;
     }
 
     public String getCategory() {
@@ -65,5 +44,32 @@ public class Order {
 
     public void setTimeSlot(String timeSlot) {
         this.timeSlot = timeSlot;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getFoodItemId() {
+        return foodItemId;
+    }
+
+    public void setFoodItemId(String foodItemId) {
+        this.foodItemId = foodItemId;
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id='" + id + '\'' +
+                ", category='" + category + '\'' +
+                ", timeSlot='" + timeSlot + '\'' +
+                ", userId='" + userId + '\'' +
+                ", foodItemId='" + foodItemId + '\'' +
+                '}';
     }
 }
