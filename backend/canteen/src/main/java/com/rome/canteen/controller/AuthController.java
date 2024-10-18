@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.List;
 
 @RestController
 @RequestMapping("/auth")
@@ -49,16 +50,10 @@ public class AuthController {
         }
     }
 
-
-
-
-
     // Signup endpoint
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
-
-
             // Assign default role if not provided
             if (user.getRole() == null || user.getRole().isEmpty()) {
                 user.setRole("user");
@@ -72,4 +67,42 @@ public class AuthController {
         }
     }
 
+    // Get all users
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
+    }
+
+    // Get user by email
+    @GetMapping("/user/{email}")
+    public ResponseEntity<?> getUserByEmail(@PathVariable String email) {
+        User user = userService.findByEmail(email);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
+        }
+        return ResponseEntity.ok(user);
+    }
+
+    // Update user
+    @PutMapping("/user")
+    public ResponseEntity<?> updateUser(@RequestBody User updatedUser) {
+        try {
+            userService.updateUser(updatedUser);
+            return ResponseEntity.ok("User updated successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Update failed: " + e.getMessage());
+        }
+    }
+
+    // Delete user by email
+    @DeleteMapping("/user/{email}")
+    public ResponseEntity<?> deleteUser(@PathVariable String email) {
+        try {
+            userService.deleteUser(email);
+            return ResponseEntity.ok("User deleted successfully");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Delete failed: " + e.getMessage());
+        }
+    }
 }
