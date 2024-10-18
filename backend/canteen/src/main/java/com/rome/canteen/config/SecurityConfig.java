@@ -60,7 +60,12 @@ public class SecurityConfig {
                         .requestMatchers("/api/fooditems/add", "/api/fooditems/delete/{id}").hasRole("OWNER")
 
                         // Only ADMIN and OWNER can access all users
-                        .requestMatchers("/auth/users").hasAnyRole("ADMIN", "OWNER")
+                        .requestMatchers("/auth/users/**").hasAnyRole("ADMIN", "OWNER")
+
+
+                        // Only the ADMIN and OWNER can view contact messages
+                        .requestMatchers("/api/contact/messages").hasAnyRole("ADMIN", "OWNER")
+
 
                         // All other requests require authentication
                         .anyRequest().authenticated()

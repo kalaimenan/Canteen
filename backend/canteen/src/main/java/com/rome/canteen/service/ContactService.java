@@ -4,6 +4,8 @@ import com.rome.canteen.model.Contact;
 import com.rome.canteen.repository.ContactRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ContactService {
 
@@ -13,8 +15,13 @@ public class ContactService {
         this.contactRepository = contactRepository;
     }
 
-    // Save contact form data
-    public Contact saveContact(Contact contact) {
-        return contactRepository.save(contact);
+    // Method to save a contact message
+    public void saveContact(Contact contact) {
+        contactRepository.save(contact);
+    }
+
+    // Method to retrieve all contact messages
+    public List<Contact> getAllMessages() {
+        return contactRepository.findAll();
     }
 }
