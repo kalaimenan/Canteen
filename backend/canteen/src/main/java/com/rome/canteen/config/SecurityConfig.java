@@ -54,7 +54,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         // Public access to login, signup, and contact submit endpoints
-                        .requestMatchers("/auth/login", "/auth/signup", "/api/contact/submit", "/api/fooditems/**").permitAll()
+                        .requestMatchers("/auth/login", "/auth/signup", "/api/contact/submit","/api/ratings", "/api/fooditems/**").permitAll()
 
                         // Only the OWNER can add and delete food items
                         .requestMatchers("/api/fooditems/add", "/api/fooditems/delete/{id}").hasRole("OWNER")
